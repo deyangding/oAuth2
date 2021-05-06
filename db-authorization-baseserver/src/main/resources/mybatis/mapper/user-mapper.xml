@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.UserDao">
+    <resultMap id="UserResultMap" type="com.demo.entity.User">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="updater" jdbcType="VARCHAR" property="updater"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="deleted"/>
+        <result column="delete_token" jdbcType="VARCHAR" property="deleteToken"/>
+    </resultMap>
+    <sql id="User_Column_List">
+		t.id, t.user_name, t.password, t.phone, t.email, t.creator, t.updater, t.create_time, t.update_time
+	</sql>
+    <select id="findByUserName" resultMap="UserResultMap">
+        SELECT
+        <include refid="User_Column_List"/>
+        FROM t_sys_user t
+        WHERE t.is_deleted = 0 AND t.user_name = #{userName}
+    </select>
+</mapper>

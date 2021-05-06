@@ -1,0 +1,25 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: oauth2-server
+  datasource:
+    username: root
+    password: admin
+    # 如果自定义 hikari DataSource，url要改为jdbc-url
+    #    url: jdbc:mysql://127.0.0.1:3306/oauth2?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/oauth2?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 20
+      max-lifetime: 1800000
+      idle-timeout: 30000
+      data-source-properties:
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        cachePrepStmts: true
+        useServerPrepStmts: true
+mybatis:
+  type-aliases-package: com.demo.entity
+  mapper-locations: classpath:mybatis/mapper/*-mapper.xml

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.PermissionDao">
+    <resultMap id="PermissionResultMap" type="com.demo.entity.Permission">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="ch_name" jdbcType="VARCHAR" property="chName"/>
+        <result column="en_name" jdbcType="VARCHAR" property="enName"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="updater" jdbcType="VARCHAR" property="updater"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Permission_Column_List">
+		p.id, p.parent_id, p.ch_name, p.en_name, p.url, p.description, p.creator, p.updater, p.create_time,
+		p.update_time
+	</sql>
+    <select id="findByUserId" resultMap="PermissionResultMap">
+        SELECT
+        <include refid="Permission_Column_List"/>
+        FROM
+        t_sys_user AS u
+        LEFT JOIN t_sys_user_role AS ur
+        ON u.id = ur.user_id
+        LEFT JOIN t_sys_role AS r
+        ON r.id = ur.role_id
+        LEFT JOIN t_sys_role_permission AS rp
+        ON r.id = rp.role_id
+        LEFT JOIN t_sys_permission AS p
+        ON p.id = rp.permission_id
+        WHERE u.id = #{userId} AND u.is_deleted = 0 AND r.is_deleted = 0
+    </select>
+</mapper>

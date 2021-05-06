@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.RoleDao">
+    <resultMap id="RoleResultMap" type="com.demo.entity.Role">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="ch_name" jdbcType="VARCHAR" property="chName"/>
+        <result column="en_name" jdbcType="VARCHAR" property="enName"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="updater" jdbcType="VARCHAR" property="updater"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="deleted"/>
+        <result column="delete_token" jdbcType="VARCHAR" property="deleteToken"/>
+    </resultMap>
+    <sql id="Role_Column_List">
+    r.id, r.parent_id, r.ch_name, r.en_name, r.description,r.creator, r.updater, r.create_time,
+    r.update_time, r.is_deleted, r.delete_token
+  </sql>
+
+    <select id="findByRoleId" resultMap="RoleResultMap">
+        SELECT
+        <include refid="Role_Column_List"/>
+        FROM t_sys_role r
+        WHERE r.is_deleted = 0 AND r.id = #{roleId}
+    </select>
+</mapper>
